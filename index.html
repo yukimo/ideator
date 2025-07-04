@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideator - アイデアから価値を創造する</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin-top: 2rem;
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
+        }
+        
+        .section {
+            padding: 4rem 0;
+        }
+        
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+        
+        /* Profile Section */
+        .profile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+        }
+        
+        .profile-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .profile-content p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        /* Articles Section */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .article-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        /* Achievements Section */
+        .achievements {
+            background: #f8f9fa;
+            padding: 4rem 0;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .achievement-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .achievement-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+        
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 2rem;
+            color: #bdc3c7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .profile {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Ideator</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#articles">Articles</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>アイデアから価値を創造する</h1>
+            <p>革新的なアイデアで未来を切り開く Ideator</p>
+            <a href="#contact" class="cta-button">お問い合わせ</a>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <section id="about" class="section">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="profile">
+                    <div class="profile-image">💡</div>
+                    <div class="profile-content">
+                        <h3>創造的なアイデアで世界を変える</h3>
+                        <p>私は革新的なアイデアの発想から実現まで、幅広い分野でのソリューション提供を行うIdeatorです。テクノロジーとクリエイティビティを融合させ、新しい価値を生み出すことを使命としています。</p>
+                        <p>10年以上の経験を通じて、スタートアップから大企業まで、様々な組織のイノベーション創出をサポートしてきました。デザイン思考とアジャイル手法を組み合わせた独自のアプローチで、実現可能なアイデアを形にします。</p>
+                        <p>専門分野：デザイン思考、イノベーション戦略、プロダクト開発、UXデザイン</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="articles" class="section">
+            <div class="container">
+                <h2>Medium Articles</h2>
+                <div class="articles-grid">
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">📝</div>
+                        <div class="article-content">
+                            <h3 class="article-title">デザイン思考でイノベーションを起こす方法</h3>
+                            <p class="article-excerpt">デザイン思考の5つのステップを活用して、革新的なアイデアを生み出し、実現可能なソリューションに変える具体的な手法を解説します。</p>
+                            <div class="article-meta">
+                                <span>2024年12月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">🚀</div>
+                        <div class="article-content">
+                            <h3 class="article-title">スタートアップのアイデア検証プロセス</h3>
+                            <p class="article-excerpt">新しいビジネスアイデアを効率的に検証するための実践的なフレームワークとツールを紹介。リスクを最小化しながら成功確率を高める方法。</p>
+                            <div class="article-meta">
+                                <span>2024年11月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">🎯</div>
+                        <div class="article-content">
+                            <h3 class="article-title">UXデザインの未来とAIの活用</h3>
+                            <p class="article-excerpt">AIテクノロジーがUXデザインに与える影響と、デザイナーが適応すべき新しいスキルセット。人間中心設計の進化について考察。</p>
+                            <div class="article-meta">
+                                <span>2024年10月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">💼</div>
+                        <div class="article-content">
+                            <h3 class="article-title">クリエイティブチームの生産性向上術</h3>
+                            <p class="article-excerpt">創造性を損なうことなく、チームの効率性を高める管理手法とツールの活用方法。リモートワーク時代の新しいコラボレーション。</p>
+                            <div class="article-meta">
+                                <span>2024年9月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">🌟</div>
+                        <div class="article-content">
+                            <h3 class="article-title">持続可能なイノベーションの作り方</h3>
+                            <p class="article-excerpt">短期的な成功だけでなく、長期的に価値を生み続けるイノベーションを創出するための戦略と実践例を詳しく解説します。</p>
+                            <div class="article-meta">
+                                <span>2024年8月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card" onclick="openArticle('https://medium.com')">
+                        <div class="article-image">🔍</div>
+                        <div class="article-content">
+                            <h3 class="article-title">ユーザーリサーチの新しいアプローチ</h3>
+                            <p class="article-excerpt">デジタル時代のユーザーリサーチ手法と、データドリブンなインサイト発見のための革新的なアプローチを実例とともに紹介。</p>
+                            <div class="article-meta">
+                                <span>2024年7月</span>
+                                <a href="#" class="read-more">続きを読む</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="achievements">
+            <div class="container">
+                <h2>Achievements</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-number">50+</div>
+                        <div class="achievement-label">プロジェクト完了</div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">👥</div>
+                        <div class="achievement-number">100+</div>
+                        <div class="achievement-label">クライアント満足</div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">💡</div>
+                        <div class="achievement-number">200+</div>
+                        <div class="achievement-label">アイデア実現</div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">📚</div>
+                        <div class="achievement-number">25+</div>
+                        <div class="achievement-label">Medium記事</div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🚀</div>
+                        <div class="achievement-number">15+</div>
+                        <div class="achievement-label">スタートアップ支援</div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🎯</div>
+                        <div class="achievement-number">95%</div>
+                        <div class="achievement-label">成功率</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <a href="mailto:hello@ideator.com">hello@ideator.com</a>
+                    <a href="tel:+81-90-1234-5678">+81-90-1234-5678</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Social</h4>
+                    <a href="https://medium.com/@ideator">Medium</a>
+                    <a href="https://twitter.com/ideator">Twitter</a>
+                    <a href="https://linkedin.com/in/ideator">LinkedIn</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <a href="#">アイデア発想</a>
+                    <a href="#">プロダクト開発</a>
+                    <a href="#">UXデザイン</a>
+                    <a href="#">イノベーション戦略</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ideator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openArticle(url) {
+            window.open(url, '_blank');
+        }
+        
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // スクロール時のアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // アニメーション対象の要素を設定
+        document.querySelectorAll('.article-card, .achievement-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
